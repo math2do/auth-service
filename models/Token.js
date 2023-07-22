@@ -1,4 +1,4 @@
-import { model, Schema, Types } from 'mongoose';
+const { model, Schema, Types } = require('mongoose');
 
 const TokenSchema = new Schema({
   refreshToken: {
@@ -26,4 +26,4 @@ const TokenSchema = new Schema({
   { timestamps: true }
 );
 
-export default model('Token', TokenSchema);
+module.exports = model('Token', TokenSchema);

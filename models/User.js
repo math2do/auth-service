@@ -1,6 +1,6 @@
-import { compare, genSalt, hash } from 'bcryptjs';
-import { model, Schema } from 'mongoose';
-import { isEmail } from 'validator';
+const { compare, genSalt, hash } = require('bcryptjs');
+const { model, Schema } = require('mongoose');
+const { isEmail } = require('validator');
 
 const UserSchema = new Schema({
   name: {
@@ -42,17 +42,15 @@ const UserSchema = new Schema({
   },
 });
 
-
-UserSchema.pre('save', async function () {
+UserSchema.pre('save', async function() {
   if (!this.isModified('password')) return;
   const salt = await genSalt(10);
   this.password = await hash(this.password, salt);
 });
 
 // adding a instance method. Any number of such methods can be added
-UserSchema.methods.comparePassword = async function (canditatePassword) {
+UserSchema.methods.comparePassword = async function(canditatePassword) {
   const isMatch = await compare(canditatePassword, this.password);
   return isMatch;
 };
-
-export default model('User', UserSchema);
+module.exports = model('User', UserSchema);
